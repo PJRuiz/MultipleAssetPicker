@@ -15,6 +15,7 @@
 		4D13444B1991F51F0038B3AC /* CheckMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13444A1991F51F0038B3AC /* CheckMark.swift */; };
 		4DCCF3B919833C3B0024EA9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCCF3B019833C3B0024EA9E /* AppDelegate.swift */; };
 		4DCCF3BF19833C3B0024EA9E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DCCF3B719833C3B0024EA9E /* Images.xcassets */; };
+		9562BA561C06D06B00E9FADB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9562BA551C06D06B00E9FADB /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		4DCCF3B019833C3B0024EA9E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4DCCF3B719833C3B0024EA9E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4DCCF3B819833C3B0024EA9E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9562BA551C06D06B00E9FADB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			children = (
 				4DCCF3B019833C3B0024EA9E /* AppDelegate.swift */,
 				4D1344481991F3DC0038B3AC /* Main.storyboard */,
+				9562BA551C06D06B00E9FADB /* LaunchScreen.storyboard */,
 				4D1344401991F3CB0038B3AC /* AssetCollectionsViewController.swift */,
 				4D1344411991F3CB0038B3AC /* AssetsViewController.swift */,
 				4D1344421991F3CB0038B3AC /* SelectedAssets.swift */,
@@ -142,6 +145,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9562BA561C06D06B00E9FADB /* LaunchScreen.storyboard in Resources */,
 				4D1344491991F3DC0038B3AC /* Main.storyboard in Resources */,
 				4DCCF3BF19833C3B0024EA9E /* Images.xcassets in Resources */,
 			);
@@ -253,7 +257,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "$(SRCROOT)/MultipleAssetPicker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "RW.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.entrepreneurgt.MultipleAssetPicker;
 				PRODUCT_NAME = MultipleAssetPicker;
 			};
 			name = Debug;
@@ -265,7 +269,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "$(SRCROOT)/MultipleAssetPicker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "RW.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.entrepreneurgt.MultipleAssetPicker;
 				PRODUCT_NAME = MultipleAssetPicker;
 			};
 			name = Release;

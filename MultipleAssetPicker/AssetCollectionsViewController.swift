@@ -33,14 +33,19 @@ class AssetCollectionsViewController: UITableViewController {
     }
     
     // Check for permissions and load assets
-    PHPhotoLibrary.requestAuthorization { status in dispatch_async(dispatch_get_main_queue()) {
-      switch status { case .Authorized:
-      // 2
-      self.fetchCollections()
-    self.tableView.reloadData() default:
-      // 3
-      self.showNoAccessAlertAndCancel() }
-      } }
+    PHPhotoLibrary.requestAuthorization {
+      status in dispatch_async(dispatch_get_main_queue()) {
+          switch status {
+            case .Authorized:
+              // 2
+                self.fetchCollections()
+                self.tableView.reloadData()
+          default:
+              // 3
+                self.showNoAccessAlertAndCancel() }
+        }
+    }
+    
   }
   
   override func viewWillAppear(animated: Bool)  {
@@ -49,14 +54,43 @@ class AssetCollectionsViewController: UITableViewController {
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-    let destination = segue.destinationViewController
-      as! AssetsViewController
+    let destination = segue.destinationViewController as! AssetsViewController
     // Set up AssetCollectionViewController
+		// 1
+		destination.selectedAssets = selectedAssets
+		// 2
+		let cell = sender as! UITableViewCell
+		destination.title = cell.textLabel!.text
+		// 3
+		let options = PHFetchOptions()
+		options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+		let indexPath = tableView.indexPathForCell(cell)!
+		switch (indexPath.section) {
+			case 0:
+			// Selected
+					destination.assetsFetchResults = nil
+			case 1:
+					if indexPath.row == 0 {
+						// All Photos
+						destination.assetsFetchResults = PHAsset.fetchAssetsWithOptions(options)
+					} else {
+						// Favorites
+						let favorites = userFavorites[indexPath.row - 1] as! PHAssetCollection
+						destination.assetsFetchResults = PHAsset.fetchAssetsInAssetCollection(favorites, options: options)
+					} case 2:
+						// Albums
+						let album = userAlbums[indexPath.row] as! PHAssetCollection
+						destination.assetsFetchResults = PHAsset.fetchAssetsInAssetCollection(album, options: options)
+			default:
+				break
+		}
+		
   }
   
   // MARK: Private
   func fetchCollections() {
-
+    userAlbums = PHCollectionList.fetchTopLevelUserCollectionsWithOptions(nil)
+    userFavorites = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype:.SmartAlbumFavorites, options: nil)
   }
   
   func showNoAccessAlertAndCancel() {
@@ -91,20 +125,49 @@ class AssetCollectionsViewController: UITableViewController {
     case 0: // Selected Section
       return 1
     case 1: // All Photos + Favorites
-      return 1
+      return 1 + (userFavorites?.count ?? 0)
     case 2: // Albums
-      return 0
+      return userAlbums?.count ?? 0
     default:
       return 0
     }
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(AssetCollectionCellReuseIdentifier, forIndexPath: indexPath) 
-    cell.detailTextLabel!.text = ""
+		
+		let cell = tableView.dequeueReusableCellWithIdentifier(AssetCollectionCellReuseIdentifier, forIndexPath: indexPath)
+		
+		cell.detailTextLabel!.text = ""
     
     // Populate the table cell
-    
+    switch(indexPath.section) {
+        case 0:
+          // Selected
+          cell.textLabel!.text = "Selected"
+          cell.detailTextLabel!.text = "\(selectedAssets!.assets.count)"
+        case 1:
+          if (indexPath.row == 0) {
+              // All Photos
+            cell.textLabel!.text = "All Photos"
+            cell.detailTextLabel!.text = ""
+          } else {
+              // Favorites
+            let favorites = userFavorites[indexPath.row - 1] as! PHAssetCollection
+            cell.textLabel!.text = favorites.localizedTitle
+            if (favorites.estimatedAssetCount != NSNotFound) {
+                cell.detailTextLabel!.text = "\(favorites.estimatedAssetCount)"
+            }
+          } case 2:
+              // Albums
+              let album = userAlbums[indexPath.row] as! PHAssetCollection
+              cell.textLabel!.text = album.localizedTitle
+              if (album.estimatedAssetCount != NSNotFound) {
+                cell.detailTextLabel!.text = "\(album.estimatedAssetCount)"
+              }
+          default:
+              break
+    }
+		
     return cell
   }
 }
